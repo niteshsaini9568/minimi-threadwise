@@ -141,7 +141,7 @@ async function openThread(id) {
   for (const turn of data.turns) appendTurn(turn);
   $('#welcome').hidden = data.turns.length > 0;
   $('#delete-chat').hidden = false;
-  $('.sidebar').classList.remove('open'); $('#menu').setAttribute('aria-expanded', 'false');
+  setHistoryOpen(false);
   await refreshThreads();
 }
 
@@ -214,7 +214,17 @@ $('#message').addEventListener('keydown', event => {
 $('#message').addEventListener('input', () => { $('#message').style.height = 'auto'; $('#message').style.height = `${Math.min($('#message').scrollHeight, 180)}px`; });
 $('#new-chat').onclick = () => newChat().catch(e => toast(e.message));
 $('#stop').onclick = () => state.controller?.abort();
-$('#menu').onclick = () => { const open = $('.sidebar').classList.toggle('open'); $('#menu').setAttribute('aria-expanded', String(open)); };
+function setHistoryOpen(open) {
+  const sidebar = $('.sidebar');
+  const wasOpen = sidebar.classList.contains('open');
+  sidebar.classList.toggle('open', open);
+  sidebar.inert = !open;
+  $('#menu').setAttribute('aria-expanded', String(open));
+  if (open) requestAnimationFrame(() => $('#close-history').focus());
+  else if (wasOpen) $('#menu').focus();
+}
+$('#menu').onclick = () => setHistoryOpen(!$('.sidebar').classList.contains('open'));
+$('#close-history').onclick = () => setHistoryOpen(false);
 $('#delete-chat').onclick = async () => {
   if (!state.thread || !confirm('Delete this conversation and its stored evidence?')) return;
   try {
@@ -249,7 +259,7 @@ document.addEventListener('keydown', event => {
   if (event.key.toLowerCase() === 'n' && !event.ctrlKey && !event.metaKey && !event.altKey && !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName) && !state.controller) {
     event.preventDefault(); newChat().catch(e => toast(e.message));
   }
-  if (event.key === 'Escape') { $('.sidebar').classList.remove('open'); $('#menu').setAttribute('aria-expanded', 'false'); }
+  if (event.key === 'Escape') setHistoryOpen(false);
 });
 
 async function init() {

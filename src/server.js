@@ -13,6 +13,7 @@ const FILES = {
   '/': ['public/index.html', 'text/html'],
   '/app.js': ['public/app.js', 'text/javascript'],
   '/style.css': ['public/style.css', 'text/css'],
+  '/fonts/inter-variable.woff2': ['public/fonts/inter-variable.woff2', 'font/woff2'],
   '/vendor/marked.js': ['node_modules/marked/lib/marked.esm.js', 'text/javascript'],
   '/vendor/purify.js': ['node_modules/dompurify/dist/purify.es.mjs', 'text/javascript'],
   '/sample-history.json': ['fixtures/sample-history.json', 'application/json'],

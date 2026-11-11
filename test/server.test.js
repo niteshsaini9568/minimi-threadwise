@@ -28,6 +28,10 @@ test('app serves the UI and vendored dependencies under a restrictive CSP', asyn
     const response = await request(path); assert.equal(response.status, 200, path); await response.text();
     assert.match(response.headers.get('content-security-policy'), /frame-ancestors 'none'/);
   }
+  const font = await request('/fonts/inter-variable.woff2');
+  assert.equal(font.status, 200);
+  assert.match(font.headers.get('content-type'), /^font\/woff2/);
+  assert.equal(Buffer.from(await font.arrayBuffer()).subarray(0, 4).toString(), 'wOF2');
 });
 test('HTTP chat streams and persists one completed turn', async t => {
   const { request } = await fixture(t);

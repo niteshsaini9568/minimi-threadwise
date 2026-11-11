@@ -3,53 +3,70 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#11140f">
+  <meta name="color-scheme" content="dark">
   <meta name="description" content="A research conversation that remembers what you asked and checks what's changed.">
   <title>Threadwise · Remember. Recheck.</title>
+  <link rel="preload" href="/fonts/inter-variable.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/style.css">
   <script type="module" src="/app.js"></script>
 </head>
 <body>
-  <aside class="sidebar" aria-label="Conversation history">
-    <a class="brand" href="/" aria-label="Threadwise home"><span class="brand-mark">t<span>✳</span></span><span>threadwise<span class="brand-caption">A little context goes a long way.</span></span></a>
-    <button id="new-chat" class="new-chat"><span>＋</span> New conversation <span class="keycap">N</span></button>
-    <div class="section-label">YOUR CONVERSATIONS</div>
+  <aside class="sidebar" aria-label="Conversation history" inert>
+    <div class="drawer-heading"><div><span class="eyebrow">YOUR WORKSPACE</span><h2>Conversations</h2></div><button id="close-history" class="icon-button" aria-label="Close conversation history">×</button></div>
+    <p class="drawer-intro">The context you can come back to.</p>
     <nav id="threads" aria-label="Conversations"></nav>
     <div class="sidebar-bottom">
-      <p>Memory stays on this device.<br>Relevant context goes to OpenAI.</p>
-      <div class="history-actions"><button id="import">Import history</button><button id="export">Export</button></div>
+      <div class="history-actions"><button id="import">Import history <span>↗</span></button><button id="export">Export <span>↓</span></button></div>
       <input type="file" id="history-file" accept="application/json,.json" hidden>
-      <a href="/sample-history.json" download>Download sample history ↗</a>
-      <div class="build-label"><span class="status-dot"></span> MINIMI CHALLENGE <span>01</span></div>
+      <a href="/sample-history.json" download>Try the sample conversations ↗</a>
+      <p>History stays on this device.<br>Relevant context goes to OpenAI.</p>
     </div>
   </aside>
   <main>
-    <header>
-      <button id="menu" class="icon-button" aria-label="Toggle conversation sidebar" aria-expanded="false">☰</button>
-      <span class="workspace-label">YOUR RESEARCH SPACE</span>
-      <div class="header-right"><span class="capability"><span class="status-dot"></span> Web search + memory</span><button id="delete-chat" class="icon-button" title="Delete this conversation" aria-label="Delete this conversation">⌫</button></div>
-    </header>
-    <div id="setup" class="setup" hidden><strong>One key, then you're ready.</strong> Copy <code>.env.example</code> to <code>.env</code>, add your <code>OPENAI_API_KEY</code>, and restart <code>npm run dev</code>. You can explore history before connecting.</div>
-    <section id="welcome" class="welcome">
-      <div class="eyebrow"><span></span> PICK UP WHERE YOU LEFT OFF</div>
-      <h1>Good questions<br>deserve <em>fresh answers.</em></h1>
-      <p>I remember the conversation. I check the web.<br>So you can spend less time catching up.</p>
-      <div class="suggestions">
-        <button data-prompt="On Monday we shortlisted 5 CRM tools for a 20-person sales team. Has any of them changed pricing or shipped something big since?"><span class="suggestion-icon">↻</span><span>What's changed?<small>Revisit a shortlist with fresh evidence.</small></span><span>↗</span></button>
-        <button data-prompt="What did I ask you on 3 November? Is your answer still correct today?"><span class="suggestion-icon">◷</span><span>Find an earlier conversation<small>Pick up the thread from a specific day.</small></span><span>↗</span></button>
-        <button data-prompt="Last Tuesday I asked you about Postgres hosting. Has any pricing changed since then?"><span class="suggestion-icon">⌁</span><span>Check the details again<small>Same context. An up-to-date answer.</small></span><span>↗</span></button>
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Threadwise home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>threadwise<span class="brand-dot">.</span></a>
+      <span class="workspace-label">Research, in context.</span>
+      <div class="header-tools">
+        <span class="capability"><span class="status-dot"></span> Web + memory</span>
+        <button id="menu" class="quiet-button" aria-label="Toggle conversation history" aria-expanded="false" aria-controls="threads"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.6 7.2M3 5v6h6m3-4v5l3 2"/></svg><span>History</span></button>
+        <button id="delete-chat" class="icon-button" title="Delete this conversation" aria-label="Delete this conversation" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v5m4-5v5"/></svg></button>
+        <button id="new-chat" class="new-chat" aria-label="New chat"><span aria-hidden="true">＋</span><span>New chat</span></button>
       </div>
-      <div class="welcome-note">No history yet? Start a conversation, or import the clearly marked sample.</div>
-    </section>
-    <section id="messages" aria-label="Conversation" aria-live="off"></section>
-    <div class="composer-area">
-      <div id="activity" role="status" aria-live="polite"></div>
-      <form id="composer">
-        <label class="sr-only" for="message">Your message</label>
-        <textarea id="message" rows="1" maxlength="12000" placeholder="Ask a question. Or pick up an old one…" required></textarea>
-        <div class="composer-bottom"><span><span class="search-icon">⌕</span> Web search, when it matters</span><button id="send" type="submit" aria-label="Send message">↑</button><button id="stop" type="button" hidden>Stop</button></div>
-      </form>
-      <div class="composer-note"><span>Remembers the context. Cites the evidence.</span><span>Enter to send <kbd>↵</kbd></span></div>
+    </header>
+    <div class="workspace">
+      <div id="setup" class="setup" hidden><span class="setup-dot" aria-hidden="true"></span><details><summary>Connect your API key to start chatting <span>↗</span></summary><p>Copy <code>.env.example</code> to <code>.env</code>, add <code>OPENAI_API_KEY</code>, and restart <code>npm run dev</code>. You can explore your history before connecting.</p></details></div>
+      <section id="welcome" class="welcome">
+        <div class="welcome-symbol" aria-hidden="true"><span>✳</span></div>
+        <div class="eyebrow">A LITTLE CONTEXT. A CLEARER PERSPECTIVE.</div>
+        <h1>Pick up the thread.<br><span>See what's changed.</span></h1>
+        <p>New questions, past conversations, fresh evidence.<br>A space to think it through, without starting over.</p>
+      </section>
+      <section id="messages" aria-label="Conversation" aria-live="off"></section>
+      <div class="composer-area">
+        <div id="activity" role="status" aria-live="polite"></div>
+        <form id="composer">
+          <label class="sr-only" for="message">Your message</label>
+          <textarea id="message" rows="2" maxlength="12000" placeholder="What's on your mind, or what's changed?" required></textarea>
+          <div class="composer-bottom">
+            <span class="composer-feature"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg>Search when needed</span>
+            <span class="composer-divider" aria-hidden="true"></span><span class="memory-feature">Context, remembered</span>
+            <button id="send" type="submit" aria-label="Send message"><span>Ask Threadwise</span><span aria-hidden="true">↗</span></button>
+            <button id="stop" type="button" hidden><span aria-hidden="true">■</span> Stop</button>
+          </div>
+        </form>
+        <div class="composer-note"><span>Past answers are context. Fresh sources are evidence.</span><span><kbd>↵</kbd> to send <span class="note-divider">/</span> <kbd>shift ↵</kbd> for a new line</span></div>
+      </div>
+      <section class="starters" aria-label="Ways to start a conversation">
+        <div class="starter-label"><span>OR PICK A THREAD</span><span class="starter-line"></span></div>
+        <div class="suggestions">
+          <button data-prompt="On Monday we shortlisted 5 CRM tools for a 20-person sales team. Has any of them changed pricing or shipped something big since?"><span class="card-top"><span class="suggestion-icon" aria-hidden="true">↻</span><span class="card-number">01</span></span><strong>Recheck a shortlist</strong><small>The same options.<br>A fresh look at what's changed.</small><span class="card-bottom">REVISIT A DECISION <span aria-hidden="true">↗</span></span></button>
+          <button data-prompt="What did I ask you on 3 November? Is your answer still correct today?"><span class="card-top"><span class="suggestion-icon" aria-hidden="true">↶</span><span class="card-number">02</span></span><strong>Find a past answer</strong><small>Return to a specific day.<br>Keep the original context.</small><span class="card-bottom">PICK UP THE CONVERSATION <span aria-hidden="true">↗</span></span></button>
+          <button data-prompt="Last Tuesday I asked you about Postgres hosting. Has any pricing changed since then?"><span class="card-top"><span class="suggestion-icon" aria-hidden="true">⇄</span><span class="card-number">03</span></span><strong>Compare then and now</strong><small>Check the details again.<br>See what the evidence supports.</small><span class="card-bottom">CHECK FOR CHANGES <span aria-hidden="true">↗</span></span></button>
+        </div>
+      </section>
     </div>
+    <footer class="page-footer"><span>Made for a more thoughtful conversation.</span><span><span class="status-dot"></span> YOUR LOCAL WORKSPACE</span></footer>
   </main>
   <div id="toast" role="status" aria-live="polite" hidden></div>
 </body>

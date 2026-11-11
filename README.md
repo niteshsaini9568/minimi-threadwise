@@ -2,6 +2,8 @@
 
 A chat agent with one tool, **web search**, and a durable record of what you asked and when. Built for the minimi hiring challenge.
 
+The interface uses a dark olive palette, a central composer, prompt cards and an on-demand history drawer. Inter Variable is served locally, matching the supplied MantriAI website's typography; its license is included in `public/fonts/`.
+
 Read [DESIGN.md](DESIGN.md) for the architecture and tradeoffs.
 
 ## Run
@@ -35,7 +37,7 @@ Open [localhost:3000](http://localhost:3000). Without a key, the interface and h
 
 Start a normal conversation and later ask what changed. Memory spans conversations in the same browser profile, survives refresh/server restart, and includes original answers and citations.
 
-To try historical dates immediately, click **Download sample history**, then **Import history**, and choose that JSON. All sample answers are visibly marked as unverified imports. They contain no fabricated numerical pricing baseline. On 11 November 2026, the three suggestion cards align with those dates. On other days, ask explicitly:
+To try historical dates immediately, open **History**, click **Try the sample conversations**, then **Import history**, and choose that JSON. All sample answers are visibly marked as unverified imports. They contain no fabricated numerical pricing baseline. On 11 November 2026, the three suggestion cards align with those dates. On other days, ask explicitly:
 
 - “On 9 November 2026 we shortlisted five CRM tools. Has pricing or anything significant changed since?”
 - “What did I ask on 3 November 2026? Is your answer still correct today?”
