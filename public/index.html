@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A research conversation that remembers what you asked and checks what's changed.">
+  <title>Threadwise · Remember. Recheck.</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <aside class="sidebar" aria-label="Conversation history">
+    <a class="brand" href="/" aria-label="Threadwise home"><span class="brand-mark">t<span>✳</span></span><span>threadwise<span class="brand-caption">A little context goes a long way.</span></span></a>
+    <button id="new-chat" class="new-chat"><span>＋</span> New conversation <span class="keycap">N</span></button>
+    <div class="section-label">YOUR CONVERSATIONS</div>
+    <nav id="threads" aria-label="Conversations"></nav>
+    <div class="sidebar-bottom">
+      <p>Memory stays on this device.<br>Relevant context goes to OpenAI.</p>
+      <div class="history-actions"><button id="import">Import history</button><button id="export">Export</button></div>
+      <input type="file" id="history-file" accept="application/json,.json" hidden>
+      <a href="/sample-history.json" download>Download sample history ↗</a>
+      <div class="build-label"><span class="status-dot"></span> MINIMI CHALLENGE <span>01</span></div>
+    </div>
+  </aside>
+  <main>
+    <header>
+      <button id="menu" class="icon-button" aria-label="Toggle conversation sidebar" aria-expanded="false">☰</button>
+      <span class="workspace-label">YOUR RESEARCH SPACE</span>
+      <div class="header-right"><span class="capability"><span class="status-dot"></span> Web search + memory</span><button id="delete-chat" class="icon-button" title="Delete this conversation" aria-label="Delete this conversation">⌫</button></div>
+    </header>
+    <div id="setup" class="setup" hidden><strong>One key, then you're ready.</strong> Copy <code>.env.example</code> to <code>.env</code>, add your <code>OPENAI_API_KEY</code>, and restart <code>npm run dev</code>. You can explore history before connecting.</div>
+    <section id="welcome" class="welcome">
+      <div class="eyebrow"><span></span> PICK UP WHERE YOU LEFT OFF</div>
+      <h1>Good questions<br>deserve <em>fresh answers.</em></h1>
+      <p>I remember the conversation. I check the web.<br>So you can spend less time catching up.</p>
+      <div class="suggestions">
+        <button data-prompt="On Monday we shortlisted 5 CRM tools for a 20-person sales team. Has any of them changed pricing or shipped something big since?"><span class="suggestion-icon">↻</span><span>What's changed?<small>Revisit a shortlist with fresh evidence.</small></span><span>↗</span></button>
+        <button data-prompt="What did I ask you on 3 November? Is your answer still correct today?"><span class="suggestion-icon">◷</span><span>Find an earlier conversation<small>Pick up the thread from a specific day.</small></span><span>↗</span></button>
+        <button data-prompt="Last Tuesday I asked you about Postgres hosting. Has any pricing changed since then?"><span class="suggestion-icon">⌁</span><span>Check the details again<small>Same context. An up-to-date answer.</small></span><span>↗</span></button>
+      </div>
+      <div class="welcome-note">No history yet? Start a conversation, or import the clearly marked sample.</div>
+    </section>
+    <section id="messages" aria-label="Conversation" aria-live="off"></section>
+    <div class="composer-area">
+      <div id="activity" role="status" aria-live="polite"></div>
+      <form id="composer">
+        <label class="sr-only" for="message">Your message</label>
+        <textarea id="message" rows="1" maxlength="12000" placeholder="Ask a question. Or pick up an old one…" required></textarea>
+        <div class="composer-bottom"><span><span class="search-icon">⌕</span> Web search, when it matters</span><button id="send" type="submit" aria-label="Send message">↑</button><button id="stop" type="button" hidden>Stop</button></div>
+      </form>
+      <div class="composer-note"><span>Remembers the context. Cites the evidence.</span><span>Enter to send <kbd>↵</kbd></span></div>
+    </div>
+  </main>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

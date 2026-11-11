@@ -1,0 +1,19 @@
+{
+  "name": "minimi-threadwise",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A web-search agent that remembers what was said, and when.",
+  "engines": { "node": ">=24.0.0" },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env --watch src/server.js",
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "test": "node --test",
+    "eval": "node --env-file-if-exists=.env scripts/eval.js"
+  },
+  "dependencies": {
+    "dompurify": "^3.3.0",
+    "marked": "^18.2.0",
+    "openai": "^7.55.0"
+  }
+}

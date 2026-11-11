@@ -1,0 +1,29 @@
+[
+  {
+    "name": "five-entity refresh",
+    "question": "On 9 November 2026 we shortlisted 5 CRM tools for a 20-person sales team. Has any of them changed pricing or shipped something big since?",
+    "acceptance": "Recalls HubSpot, Pipedrive, Zoho, Freshsales and Salesforce. Searches fresh primary sources for all five. Keeps annual USD/20-seat context. Distinguishes current pricing from an unproven delta because there is no numerical historical quote. Does not invent launch/effective dates."
+  },
+  {
+    "name": "exact-date recall and recheck",
+    "question": "What did I ask you on 3 November 2026? Is your answer still correct today?",
+    "acceptance": "Recalls the Vercel commercial-client question exactly enough to identify it. Searches official plan/terms evidence now. Labels imported history unverified. Does not silently treat an old answer as truth or fabricate the old terms."
+  },
+  {
+    "name": "hosting pricing baseline",
+    "question": "On 10 November 2026 I asked you about Postgres hosting. Has any pricing changed since then?",
+    "acceptance": "Recalls Neon, Supabase and Railway and the US/USD/backups constraints. Searches current official pricing for all three. Reports that a numerical historical delta is unverified; current price is not proof of a change since 10 November."
+  },
+  {
+    "name": "missing history",
+    "history": false,
+    "question": "Last Tuesday we shortlisted five CRMs. Have any changed pricing since?",
+    "acceptance": "Does not invent the five tools or pretend to recall a conversation. Asks for the missing shortlist or history. No unsupported claims about what the user previously said."
+  },
+  {
+    "name": "ordinary conversation",
+    "history": false,
+    "question": "Hi! Can you help me think through a decision?",
+    "acceptance": "Warm, short response asking about the decision. No unnecessary web search or invented personal context."
+  }
+]
